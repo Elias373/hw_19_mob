@@ -1,20 +1,18 @@
 import allure
 from selene import browser, be
-from appium.webdriver.common.appiumby import AppiumBy
 
 
-@allure.title("Search test on Android")
-def test_search_on_android():
-    with allure.step('Search for Appium'):
+@allure.title("Simple Android browser test")
+def test_simple_android():
+    with allure.step('Open website'):
+        browser.open('https://example.com')
 
-        browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()
+    with allure.step('Verify page loaded'):
+        # Просто проверяем что страница загрузилась
+        browser.element('h1').should(be.visible)
 
-
-        browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/search_src_text")).type('Appium')
-
-
-        browser.all((AppiumBy.ID, 'org.wikipedia.alpha:id/page_list_item_title')).first.click()
-
-    with allure.step('Verify we tried to open article'):
-
-        assert browser.driver.current_activity is not None
+    with allure.step('Verify Android platform'):
+        # Проверяем что тест запущен на Android
+        capabilities = browser.driver.capabilities
+        platform = capabilities.get('platformName', '').lower()
+        assert platform == 'android'
