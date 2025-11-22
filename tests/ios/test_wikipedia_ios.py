@@ -1,20 +1,15 @@
 import allure
-from selene import browser, be, have
+from selene import browser
+from appium.webdriver.common.appiumby import AppiumBy
 
 
-@allure.title("Simple iOS browser test")
-def test_simple_ios():
-    with allure.step('Open website and verify'):
-        browser.open('https://example.com')
-        browser.element('h1').should(have.text('Example Domain'))
+@allure.title("Open article in Wikipedia iOS app")
+def test_open_wikipedia_article_ios():
+    with allure.step("Click search"):
+        browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()
 
-    with allure.step('Perform interaction'):
-        # Просто проверяем что можем взаимодействовать с элементами
-        browser.element('a').should(be.visible)
+    with allure.step("Type search"):
+        browser.element((AppiumBy.XPATH, "//XCUIElementTypeTextField[@name='Search Wikipedia']")).type("Python")
 
-    with allure.step('Verify iOS platform'):
-        # Проверяем что тест запущен на iOS
-        capabilities = browser.driver.capabilities
-        platform = capabilities.get('platformName', '').lower()
-        assert platform == 'ios'
-        print(f"Test running on: {platform}")
+    with allure.step("Click article"):
+        browser.element((AppiumBy.XPATH, "//XCUIElementTypeStaticText[@name='Python (programming language)']")).click()
