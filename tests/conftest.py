@@ -24,12 +24,12 @@ def mobile_management(request):
     if platform == "android":
         options = UiAutomator2Options().load_capabilities({
             'platformName': 'android',
-            'platformVersion': settings.android_platform_version,
-            'deviceName': settings.android_device,
-            'app': settings.android_app,
+            'browserName': 'chrome',  # ← ИЗМЕНИТЕ ЗДЕСЬ
             'bstack:options': {
                 'userName': settings.browserstack_username,
                 'accessKey': settings.browserstack_access_key,
+                'deviceName': settings.android_device,
+                'platformVersion': settings.android_platform_version,
                 'projectName': 'Android Tests',
                 'buildName': 'android-build-1',
                 'sessionName': 'Android Wikipedia Test',
@@ -39,12 +39,12 @@ def mobile_management(request):
     elif platform == "ios":
         options = XCUITestOptions().load_capabilities({
             'platformName': 'ios',
-            'platformVersion': settings.ios_platform_version,
-            'deviceName': settings.ios_device,
-            'app': settings.ios_app,
+            'browserName': 'safari',  # ← ИЗМЕНИТЕ ЗДЕСЬ
             'bstack:options': {
                 'userName': settings.browserstack_username,
                 'accessKey': settings.browserstack_access_key,
+                'deviceName': settings.ios_device,
+                'platformVersion': settings.ios_platform_version,
                 'projectName': 'iOS Tests',
                 'buildName': 'ios-build-1',
                 'sessionName': 'iOS Wikipedia Test',

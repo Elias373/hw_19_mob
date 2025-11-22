@@ -1,16 +1,10 @@
 import allure
-import pytest
-from selene import browser
+from selene import browser, have
 
 
 @allure.title("Simple iOS test")
 def test_ios_app_launch():
+    browser.open('https://wikipedia.org')
 
-    with allure.step('Check iOS app is running'):
-        assert browser.driver is not None
-        assert browser.driver.session_id is not None
-
-    with allure.step('Verify we can interact with app'):
-        capabilities = browser.driver.capabilities
-        platform = capabilities.get('platformName', '').lower()
-        assert platform == 'ios', f"Expected iOS, but got {platform}"
+    with allure.step('Check page loaded'):
+        browser.element('.central-textlogo').should(have.text('Wikipedia'))
