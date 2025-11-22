@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 
 
 class Settings(BaseSettings):
@@ -17,8 +18,8 @@ class Settings(BaseSettings):
     ios_platform_version: str = "16"
     ios_app: str = "bs://sample.app"
 
-    class Config:
-        env_file = ".env"
+    # ИСПРАВЛЕНИЕ для Pydantic v2
+    model_config = ConfigDict(env_file=".env")
 
 
 settings = Settings()

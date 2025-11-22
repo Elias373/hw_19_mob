@@ -68,20 +68,21 @@ def mobile_management(request):
 
     yield
 
+    # СНИМОК ЭКРАНА - оставляем как PNG
     allure.attach(
         browser.driver.get_screenshot_as_png(),
         name='screenshot',
         attachment_type=allure.attachment_type.PNG,
     )
 
+    # ИСПРАВЛЕНИЕ: меняем XML на HTML для page_source
     allure.attach(
         browser.driver.page_source,
-        name='screen xml dump',
-        attachment_type=allure.attachment_type.XML,
+        name='page_source',
+        attachment_type=allure.attachment_type.HTML,  # ← ИЗМЕНИТЬ ЗДЕСЬ
     )
 
     session_id = browser.driver.session_id
 
     with allure.step('tear down app session'):
         browser.quit()
-
