@@ -27,7 +27,7 @@ def mobile_management(request):
             "platformName": "android",
             "platformVersion": "12.0",
             "deviceName": "Samsung Galaxy S22",
-            "app": "bs://sample.app",  # Демо приложение Android
+            "app": "bs://sample.app",
             'bstack:options': {
                 "projectName": "Android App tests",
                 "buildName": "browserstack-android-app",
@@ -41,7 +41,7 @@ def mobile_management(request):
             "platformName": "ios",
             "platformVersion": "16",
             "deviceName": "iPhone 14",
-            "app": "bs://sample.app",  # Демо приложение iOS
+            "app": "bs://sample.app",
             'bstack:options': {
                 "projectName": "IOS App tests",
                 "buildName": "browserstack-ios-app",

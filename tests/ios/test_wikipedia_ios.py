@@ -4,7 +4,7 @@ from selene import browser, have
 
 
 @allure.title("iOS app interaction test")
-def test_ios(mobile_management):  # ← ИЗМЕНИЛ macos_management на mobile_management
+def test_ios(mobile_management):
     text_to_input = 'Hello,world!'
 
     with allure.step("Click on Text Button"):
