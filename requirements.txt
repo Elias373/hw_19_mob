@@ -1,3 +1,7 @@
 pytest
 selenium==4.15.1
 selene>=2.0.0b17
+appium-python-client
+allure-pytest
+pydantic-settings
+python-dotenv
