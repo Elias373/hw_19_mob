@@ -1,8 +1,9 @@
+import allure
 from allure_commons._allure import step
 from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have
 
-
+@allure.title("Simple Android test")
 def test_search():
 
     with step('Type search'):
