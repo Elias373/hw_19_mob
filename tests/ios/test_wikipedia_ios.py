@@ -1,13 +1,12 @@
-import allure
-from selene import browser, be
 from appium.webdriver.common.appiumby import AppiumBy
+from selene import browser, have
 
 
-@allure.title("iOS app test - simple interaction")
-def test_ios_app_interaction(mobile_management):
-    with allure.step('Wait for app to load'):
-        browser.element((AppiumBy.XPATH, "//*")).should(be.visible)
-
-    with allure.step('Take screenshot of loaded app'):
-        # Просто проверяем что приложение запустилось
-        pass
+def test_ios(macos_management):
+    text_to_input = 'Hello,world!'
+    browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Button")).click()
+    browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Input")).send_keys(
+            text_to_input + "\n")
+    browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Output")).should(
+            have.exact_text(text_to_input)
+        )
