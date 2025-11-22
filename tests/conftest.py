@@ -1,12 +1,16 @@
 import os
 import pytest
+from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
-from appium import webdriver
 from selene import browser, support
 import allure
 import allure_commons
-from src.utils.config import settings
+import dotenv
+
+dotenv.load_dotenv()
+user_name = os.getenv('BROWSERSTACK_USERNAME')
+accesskey = os.getenv('BROWSERSTACK_ACCESS_KEY')
 
 
 def pytest_addoption(parser):
@@ -14,47 +18,46 @@ def pytest_addoption(parser):
                      help="Platform to run tests on: android or ios")
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='function')
 def mobile_management(request):
     platform = request.config.getoption("--platform")
 
     if platform == "android":
         options = UiAutomator2Options().load_capabilities({
-            'platformName': 'android',
-            'app': settings.android_app,
+            "platformName": "android",
+            "platformVersion": "12.0",
+            "deviceName": "Samsung Galaxy S22",
+            "app": "bs://sample.app",  # Демо приложение Android
             'bstack:options': {
-                'userName': settings.browserstack_username,
-                'accessKey': settings.browserstack_access_key,
-                'deviceName': settings.android_device,
-                'platformVersion': settings.android_platform_version,
-                'projectName': 'Android Wikipedia',
-                'buildName': 'android-wikipedia',
-                'sessionName': 'Wikipedia test',
+                "projectName": "Android App tests",
+                "buildName": "browserstack-android-app",
+                "userName": user_name,
+                "accessKey": accesskey
             }
         })
 
     elif platform == "ios":
         options = XCUITestOptions().load_capabilities({
-            'platformName': 'ios',
-            'app': settings.ios_app,
+            "platformName": "ios",
+            "platformVersion": "16",
+            "deviceName": "iPhone 14",
+            "app": "bs://sample.app",  # Демо приложение iOS
             'bstack:options': {
-                'userName': settings.browserstack_username,
-                'accessKey': settings.browserstack_access_key,
-                'deviceName': settings.ios_device,
-                'platformVersion': settings.ios_platform_version,
-                'projectName': 'iOS Wikipedia',
-                'buildName': 'ios-wikipedia',
-                'sessionName': 'Wikipedia test',
+                "projectName": "IOS App tests",
+                "buildName": "browserstack-ios-app",
+                "userName": user_name,
+                "accessKey": accesskey
             }
         })
 
-    with allure.step('Start session'):
+    browser.config.timeout = 10.0
+
+    with allure.step('init app session'):
         browser.config.driver = webdriver.Remote(
-            f"https://{settings.browserstack_url}",
+            'http://hub.browserstack.com/wd/hub',
             options=options
         )
 
-    browser.config.timeout = 10.0
     browser.config._wait_decorator = support._logging.wait_with(
         context=allure_commons._allure.StepContext
     )
@@ -67,5 +70,5 @@ def mobile_management(request):
         attachment_type=allure.attachment_type.PNG,
     )
 
-    with allure.step('Close session'):
+    with allure.step('tear down app session'):
         browser.quit()
