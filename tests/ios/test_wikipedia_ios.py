@@ -1,21 +1,21 @@
 import allure
-from selene import browser, have
-import time
+from selene import browser, be
+from appium.webdriver.common.appiumby import AppiumBy
 
 
-@allure.title("Simple Android test")
-def test_search():
-    browser.open('https://wikipedia.org')
+@allure.title("Search test on iOS")
+def test_search_on_ios():
+    with allure.step('Search for Python'):
 
-    with allure.step('Type search'):
-        browser.element('#searchInput').type('Appium')
-
-
-        time.sleep(2)
+        browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Button")).click()
 
 
-        search_button = browser.driver.find_element_by_css_selector('.pure-button')
-        browser.driver.execute_script("arguments[0].click();", search_button)
+        browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Input")).type('Python')
 
-    with allure.step('Verify content found'):
-        browser.element('#firstHeading').should(have.text('Appium'))
+
+        browser.element((AppiumBy.ACCESSIBILITY_ID, "Return")).click()
+
+    with allure.step('Verify interaction was performed'):
+
+        text_output = browser.element((AppiumBy.ACCESSIBILITY_ID, "Text Output"))
+        text_output.should(be.visible)

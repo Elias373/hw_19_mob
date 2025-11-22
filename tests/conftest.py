@@ -24,7 +24,7 @@ def mobile_management(request):
     if platform == "android":
         options = UiAutomator2Options().load_capabilities({
             'platformName': 'android',
-            'browserName': 'chrome',  # ← ИЗМЕНИТЕ ЗДЕСЬ
+            'browserName': 'chrome',
             'bstack:options': {
                 'userName': settings.browserstack_username,
                 'accessKey': settings.browserstack_access_key,
@@ -39,7 +39,7 @@ def mobile_management(request):
     elif platform == "ios":
         options = XCUITestOptions().load_capabilities({
             'platformName': 'ios',
-            'browserName': 'safari',  # ← ИЗМЕНИТЕ ЗДЕСЬ
+            'browserName': 'safari',
             'bstack:options': {
                 'userName': settings.browserstack_username,
                 'accessKey': settings.browserstack_access_key,
